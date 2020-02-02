@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>二叉堆 | Watson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介：(二叉)堆是一个数组，类似于一棵完全二叉树，树上的每一个节点对应数组中的一个元素。除了树的最底层，该树是完全充满的，而且是从左向右填充。表示堆的数组通常需要给出数组长度$len$和包含的有效数据个数(堆中数据个数)$size$两个属性。显然，有$0\le size\le len$。对于下标$i$指向的元素，可以算出它的父节点、左孩子和右孩子的下标分别为$\lfloor i&#x2F;2\rfloor$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉堆">
+<meta property="og:url" content="http://yoursite.com/2020/02/02/Binary_Heap/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="简介：(二叉)堆是一个数组，类似于一棵完全二叉树，树上的每一个节点对应数组中的一个元素。除了树的最底层，该树是完全充满的，而且是从左向右填充。表示堆的数组通常需要给出数组长度$len$和包含的有效数据个数(堆中数据个数)$size$两个属性。显然，有$0\le size\le len$。对于下标$i$指向的元素，可以算出它的父节点、左孩子和右孩子的下标分别为$\lfloor i&#x2F;2\rfloor$">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-02T06:30:34.648Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="洛谷">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Watson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Think twice,code once</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Binary_Heap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/02/Binary_Heap/" class="article-date">
+  <time datetime="2020-02-01T16:00:00.000Z" itemprop="datePublished">2020-02-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      二叉堆
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>(二叉)堆是一个数组，类似于一棵完全二叉树，树上的每一个节点对应数组中的一个元素。除了树的最底层，该树是完全充满的，而且是从左向右填充。表示堆的数组通常需要给出数组长度$len$和包含的有效数据个数(堆中数据个数)$size$两个属性。显然，有$0\le size\le len$。<br>对于下标$i$指向的元素，可以算出它的父节点、左孩子和右孩子的下标分别为$\lfloor i/2\rfloor$、$2i$和$2i+1$。</p>
+<p>堆可以分为两种，大根堆和小根堆。顾名思义，大根堆的最大元素存放在根节点，且在任意子树中子树包含的节点的值都不大于该子树的根节点的值。小根堆的存放方式正好相反。</p>
+<a id="more"></a>
+<h1 id="模板题-P3378-简述："><a href="#模板题-P3378-简述：" class="headerlink" title="模板题(P3378)简述："></a>模板题<a href="https://www.luogu.com.cn/problem/P3378" target="_blank" rel="noopener">(P3378)</a>简述：</h1><p>初始小根堆为空，支持以下3种操作：</p>
+<p>输入$1$   $x$：将$x$插入到堆中；</p>
+<p>输入$2$：输出堆中最小数；</p>
+<p>输入$3$：删除堆中最小数。</p>
+<h1 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h1><h2 id="1、手写堆"><a href="#1、手写堆" class="headerlink" title="1、手写堆"></a>1、手写堆</h2><p>只需要实现插入元素和删除堆顶两个功能，插入时将新元素放到堆底，并逐层与所在的子树的根节点相比较，若小于根节点则与其交换位置；删除操作与插入相反，先用堆底元素替换堆顶，再逐层向下比较，将原堆底元素交换到它应该在的位置。</p>
+<h2 id="2、STL优先队列"><a href="#2、STL优先队列" class="headerlink" title="2、STL优先队列"></a>2、STL优先队列</h2><p>STL的优先队列(priority_queue)就是一个堆，但是它默认是一个大根堆，需要手动改成小根堆或者将输入变为相反数，输出时再反一次。</p>
+<h2 id="3、pb-ds库的堆-优先队列"><a href="#3、pb-ds库的堆-优先队列" class="headerlink" title="3、pb_ds库的堆(优先队列)"></a>3、pb_ds库的堆(优先队列)</h2><p>pb_ds：Policy-Based Data Structures</p>
+<p>pb_ds库是GNU-C++自带的一个C++扩展库，封装了哈希表，平衡二叉树，字典树，堆等数据结构。</p>
+<p><strong>该库只在Linux下可以用！</strong></p>
+<p>其中的优先队列用法与STL的基本相同，包括 size()，empty()，push()，top()，pop()，clear()。</p>
+<p>定义时由于名称与STL的相同，要带上命名空间：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__gnu_pbds::priority_queue&lt;<span class="keyword">int</span>, greater&lt;<span class="keyword">int</span>&gt;, pairing_heap_tag&gt; q;</span><br></pre></td></tr></table></figure>
+<p>Tag表示使用堆的类型，有配对堆（pairing_heap_tag）、二叉堆（binary_heap_tag）、二项堆（binomial_heap_tag）、经改良的斐波那契堆（thin_heap_tag）、冗余计数二项式堆（rc_binomial_heap_tag）等。</p>
+<p>更多：可以用 begin() 和 end() 来获取 iterator 从而遍历；</p>
+<p>可以 increase_key，decrease_key 和删除单个元素；</p>
+<p>可以合并。</p>
+<p>在不开O2优化的情况下，pb_ds库的二叉堆效率高于STL的优先队列。</p>
+<h1 id="AC代码："><a href="#AC代码：" class="headerlink" title="AC代码："></a>AC代码：</h1><h2 id="1、手写堆-1"><a href="#1、手写堆-1" class="headerlink" title="1、手写堆"></a>1、手写堆</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> heap[<span class="number">1000001</span>];</span><br><span class="line"><span class="keyword">int</span> heap_size = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    heap[++heap_size] = x;<span class="comment">//放到堆底</span></span><br><span class="line">    <span class="keyword">int</span> i = heap_size;</span><br><span class="line">    <span class="keyword">while</span> (i &gt; <span class="number">1</span>)<span class="comment">//判断是否升到堆顶</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (heap[i] &gt;= heap[i &gt;&gt; <span class="number">1</span>])</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        swap(heap[i], heap[i &gt;&gt; <span class="number">1</span>]);</span><br><span class="line">        i &gt;&gt;= <span class="number">1</span>;<span class="comment">//再向上找一个根</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">del</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">1</span>, j;</span><br><span class="line">    heap[<span class="number">1</span>] = heap[heap_size--];<span class="comment">//删除堆顶，换成堆底</span></span><br><span class="line">    <span class="keyword">while</span> ((i &lt;&lt; <span class="number">1</span>) &lt;= heap_size)<span class="comment">//是否到了最下层</span></span><br><span class="line">    &#123;</span><br><span class="line">        j = (i &lt;&lt; <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">if</span> (j &lt; heap_size &amp;&amp; heap[j + <span class="number">1</span>] &lt; heap[j])<span class="comment">//找到左右孩子中小的一个</span></span><br><span class="line">            j++;</span><br><span class="line">        <span class="keyword">if</span> (heap[i] &lt;= heap[j])</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        swap(heap[i], heap[j]);</span><br><span class="line">        i = j;<span class="comment">//新的根</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, k, x;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">while</span> (n--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;k);</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x);</span><br><span class="line">            insert(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (k == <span class="number">2</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, heap[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            del();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2、STL优先队列-1"><a href="#2、STL优先队列-1" class="headerlink" title="2、STL优先队列"></a>2、STL优先队列</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line">priority_queue&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt; &gt; q;<span class="comment">//默认大根堆</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, k, x;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">while</span> (n--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;k);</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x);</span><br><span class="line">            q.push(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (k == <span class="number">2</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, q.top());</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            q.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、pb-ds的堆"><a href="#3、pb-ds的堆" class="headerlink" title="3、pb_ds的堆"></a>3、pb_ds的堆</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ext/pb_ds/priority_queue.hpp&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> __gnu_pbds;</span><br><span class="line">__gnu_pbds::priority_queue&lt;<span class="keyword">int</span>, greater&lt;<span class="keyword">int</span>&gt;, pairing_heap_tag&gt; q;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, k, x;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">while</span> (n--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;k);</span><br><span class="line">        <span class="keyword">if</span> (k == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;x);</span><br><span class="line">            q.push(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (k == <span class="number">2</span>)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, q.top());</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            q.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/02/Binary_Heap/" data-id="ck64ndynd0000bsv9ec2jg8i6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/01/ST/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ST表</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 10px;">其它</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 15px;">数据结构</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/02/02/Binary_Heap/">二叉堆</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/01/ST/">ST表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/01/Discretization-Solution/">离散化练习 (P2082 P2070)</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/31/record/">学习记录等</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Watson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
