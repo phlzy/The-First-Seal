@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>归并排序 | Watson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介：归并排序是一种时间复杂度$ O(n\log n)$，空间复杂度$O(n)$的稳定排序算法，它的原理是将序列不断二分只到只剩一个元素后再进行合并操作，在合并的过程中通过比较进行排序。该算法除了可以排序，还可以计算区间的逆序对数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序">
+<meta property="og:url" content="http://yoursite.com/2020/02/06/Merge_Sort/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="简介：归并排序是一种时间复杂度$ O(n\log n)$，空间复杂度$O(n)$的稳定排序算法，它的原理是将序列不断二分只到只剩一个元素后再进行合并操作，在合并的过程中通过比较进行排序。该算法除了可以排序，还可以计算区间的逆序对数。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-06T03:42:14.005Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="洛谷">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Watson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Think twice,code once</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Merge_Sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/06/Merge_Sort/" class="article-date">
+  <time datetime="2020-02-05T16:00:00.000Z" itemprop="datePublished">2020-02-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      归并排序
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h3><p>归并排序是一种时间复杂度$ O(n\log n)$，空间复杂度$O(n)$的稳定排序算法，它的原理是将序列不断二分只到只剩一个元素后再进行合并操作，在合并的过程中通过比较进行排序。该算法除了可以排序，还可以计算区间的逆序对数。</p>
+<a id="more"></a>
+<ul>
+<li>链接：<a href="https://www.luogu.com.cn/problem/P1908" target="_blank" rel="noopener">P1908逆序对</a>，<a href="https://www.luogu.com.cn/problem/P1309" target="_blank" rel="noopener">P1309瑞士轮</a>。</li>
+</ul>
+<p><strong>操作过程</strong></p>
+<p>先采用递归的方式将区间不断二分，全部分成只含有一个元素的区间后进行合并。只含有一个元素的区间内部必然是有序的，将两个有序的区间合并时只要用两个指针指向两个小区间的头部并比较指针指向的值，将更小（大）的值放进辅助空间并将相应的指针向后移动。两个指针都到达区间尾部时就可以用辅助空间的新数组覆盖原来的两个区间，合并操作就完成了。</p>
+<p><strong>代码（P1908）：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">5E5</span> + <span class="number">5</span>;</span><br><span class="line"><span class="keyword">int</span> a[maxn], temp[maxn], n;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mergesort</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l == r)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid = (l + r) &gt;&gt; <span class="number">1</span>, i = l, j = mid + <span class="number">1</span>, k = l;</span><br><span class="line">    mergesort(l, mid);</span><br><span class="line">    mergesort(mid + <span class="number">1</span>, r);</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= mid &amp;&amp; j &lt;= r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= a[j])</span><br><span class="line">            temp[k++] = a[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            temp[k++] = a[j++];</span><br><span class="line">            ans += mid - i + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (i &lt;= mid)</span><br><span class="line">        temp[k++] = a[i++];</span><br><span class="line">    <span class="keyword">while</span> (j &lt;= r)</span><br><span class="line">        temp[k++] = a[j++];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> t = l; t &lt;= r; t++)</span><br><span class="line">        a[t] = temp[t];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">register</span> <span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</span><br><span class="line">        <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a[i]);</span><br><span class="line">    mergesort(<span class="number">1</span>, n);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/06/Merge_Sort/" data-id="ck6a73pk80004akv9hlhw3au5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/9999/12/31/main/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          首页[置顶]
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/05/CF1291C-Solution/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CF1291C题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CodeForces/" rel="tag">CodeForces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2020%E5%AF%92%E5%81%87/" style="font-size: 15px;">2020寒假</a> <a href="/tags/CodeForces/" style="font-size: 12.5px;">CodeForces</a> <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 10px;">其它</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.5px;">数据结构</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.5px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/9999/12/31/main/">首页[置顶]</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/06/Merge_Sort/">归并排序</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/05/CF1291C-Solution/">CF1291C题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/04/CF1295B-Solution/">CF1295B题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/04/Fenwick_Tree/">树状数组</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Watson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
