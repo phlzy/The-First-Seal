@@ -15,7 +15,7 @@
 <meta property="og:description" content="简介：线段树可以处理一些区间修改和查询的操作，相比ST表(稀疏表)，线段树能够处理动态的区间最值问题。线段树每一次修改与查询的时间复杂度都是$O(logn)$。 但是，如果一个问题不能满足拆分成子问题来解决，就不能使用线段树。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-02T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-03T06:57:50.227Z">
+<meta property="article:modified_time" content="2020-02-06T14:31:33.513Z">
 <meta property="article:author" content="Watson">
 <meta property="article:tag" content="洛谷">
 <meta property="article:tag" content="数据结构">
@@ -98,9 +98,10 @@
 <p>但是，如果一个问题不能满足拆分成子问题来解决，就不能使用线段树。</p>
 <a id="more"></a>
 <p>由于模板题<a href="https://www.luogu.com.cn/problem/P3372" target="_blank" rel="noopener">(P3372)</a>询问的是区间和，本文查询、更新等操作都是求区间和。</p>
-<h4 id="建树："><a href="#建树：" class="headerlink" title="建树："></a>建树：</h4><p>存储时数组开4倍确保空间足够。</p>
+<h4 id="建树："><a href="#建树：" class="headerlink" title="建树："></a>建树：</h4><p><strong>存储时数组开4倍确保空间足够($2^{\log_2(n-1)+2}\approx 4\times n$)。</strong></p>
 <p>线段树的每一个节点都对应序列中的一个区间，其中根节点表示整个区间，然后通过将每个节点对应的序列不断二分向下建树，直到序列中只有一个点为止。因此，线段树的最大深度不会超过$\lfloor \log _2 (n-1) \rfloor +2$。这种建树方式先确定父亲节点，再确定两个儿子节点，所以在第一次经过父亲节点时不能确定其值，还需要在儿子节点的值确定后再更新父亲节点的值。代码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_up_sum</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    seg_tree[p] = seg_tree[p &lt;&lt; <span class="number">1</span>] + seg_tree[p &lt;&lt; <span class="number">1</span> | <span class="number">1</span>];</span><br><span class="line">&#125;<span class="comment">//由两个儿子确定父亲的值</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> p, <span class="keyword">long</span> <span class="keyword">long</span> l, <span class="keyword">long</span> <span class="keyword">long</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tag[p] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (l == r)<span class="comment">//区间只有一个点了</span></span><br><span class="line">    &#123;</span><br><span class="line">        seg_tree[p] = a[l];</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    build(p &lt;&lt; <span class="number">1</span>, l, mid);<span class="comment">//左半段</span></span><br><span class="line">    build(p &lt;&lt; <span class="number">1</span> | <span class="number">1</span>, mid + <span class="number">1</span>, r);<span class="comment">//右半段</span></span><br><span class="line">    push_up_sum(p);<span class="comment">//递归回来的时候确定父亲的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>观察建树的过程可以发现，第$k$层的节点是数组中$2^{k-1}$到$2^k-1$的点，点$p$的左儿子在点$p\times2$，右儿子在点$p\times2+1$。</p>
 <h4 id="修改："><a href="#修改：" class="headerlink" title="修改："></a>修改：</h4><p>区间修改如果一个一个修改叶子节点的值，再不断向上更新，时间复杂度过高，因此引入懒标记(lazy-tag)。当一个区间被修改时，找到这个区间各个部分的公共祖先并修改它们的懒标记，而如果未来某个被打上懒标记的公共祖先的后代也要被标记时，就需要将懒标记下放。代码如下：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">flag</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> p, <span class="keyword">long</span> <span class="keyword">long</span> l, <span class="keyword">long</span> <span class="keyword">long</span> r, <span class="keyword">long</span> <span class="keyword">long</span> k)</span><span class="comment">//打标记</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    tag[p] = tag[p] + k;</span><br><span class="line">    seg_tree[p] = seg_tree[p] + k * (r - l + <span class="number">1</span>);<span class="comment">//只修改公共祖先</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push_down</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> p, <span class="keyword">long</span> <span class="keyword">long</span> l, <span class="keyword">long</span> <span class="keyword">long</span> r)</span><span class="comment">//向下推标记</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    flag(p &lt;&lt; <span class="number">1</span>, l, mid, tag[p]);</span><br><span class="line">    flag(p &lt;&lt; <span class="number">1</span> | <span class="number">1</span>, mid + <span class="number">1</span>, r, tag[p]);</span><br><span class="line">    tag[p] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> newl, <span class="keyword">long</span> <span class="keyword">long</span> newr, <span class="keyword">long</span> <span class="keyword">long</span> l, <span class="keyword">long</span> <span class="keyword">long</span> r, <span class="keyword">long</span> <span class="keyword">long</span> p, <span class="keyword">long</span> <span class="keyword">long</span> k)</span><span class="comment">//更新</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (newl &lt;= l &amp;&amp; r &lt;= newr)</span><br><span class="line">    &#123;</span><br><span class="line">        seg_tree[p] += k * (r - l + <span class="number">1</span>);</span><br><span class="line">        tag[p] += k;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    push_down(p, l, r);</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> mid = (l + r) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (newl &lt;= mid)</span><br><span class="line">        update(newl, newr, l, mid, p &lt;&lt; <span class="number">1</span>, k);</span><br><span class="line">    <span class="keyword">if</span> (newr &gt; mid)</span><br><span class="line">        update(newl, newr, mid + <span class="number">1</span>, r, p &lt;&lt; <span class="number">1</span> | <span class="number">1</span>, k);</span><br><span class="line">    push_up_sum(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="查询："><a href="#查询：" class="headerlink" title="查询："></a>查询：</h4><p>和修改思想类似，代码如下：</p>
@@ -110,7 +111,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/03/Segment_Tree/" data-id="ck6ahdadw000h18v95ka83i7s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/03/Segment_Tree/" data-id="ck6bmagqz000al0v95aav44hr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li></ul>
@@ -121,19 +122,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/02/03/Monotone_Queue/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/02/03/CF2A-Solution/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          单调队列
+          CF2A题解
         
       </div>
     </a>
   
   
-    <a href="/2020/02/02/Binary_Heap/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/02/03/Monotone_Queue/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">二叉堆</div>
+      <div class="article-nav-title">单调队列</div>
     </a>
   
 </nav>
@@ -188,11 +189,11 @@
           </li>
         
           <li>
-            <a href="/2020/02/06/Merge_Sort/">归并排序</a>
+            <a href="/2020/02/06/P1309-Solution/">洛谷P1309题解</a>
           </li>
         
           <li>
-            <a href="/2020/02/06/P1309-Solution/">洛谷P1309题解</a>
+            <a href="/2020/02/06/Merge_Sort/">归并排序</a>
           </li>
         
           <li>
@@ -248,5 +249,21 @@
 
 
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
