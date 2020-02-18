@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>洛谷P1080题解 | Watson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="链接：P1080">
+<meta property="og:type" content="article">
+<meta property="og:title" content="洛谷P1080题解">
+<meta property="og:url" content="http://yoursite.com/2020/02/18/P1080-Solution/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="链接：P1080">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-18T14:37:55.295Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="2020寒假">
+<meta property="article:tag" content="洛谷">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Watson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Think twice,code once</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-P1080-Solution" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/18/P1080-Solution/" class="article-date">
+  <time datetime="2020-02-17T16:00:00.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      洛谷P1080题解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="链接：P1080"><a href="#链接：P1080" class="headerlink" title="链接：P1080"></a>链接：<a href="https://www.luogu.com.cn/problem/P1080" target="_blank" rel="noopener">P1080</a></h3><a id="more"></a>
+<h1 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h1><p>先对简单的情况进行分析，假如只有两个大臣，那么只有两种排列方式：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>第一种</th>
+<th>$king_l$</th>
+<th>$king_r$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$l_1$</td>
+<td>$r_1$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$l_2$</td>
+<td>$r_2$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$ans_1=\max(\frac{king_l}{r_1},\frac{king_l\times l_1}{r_2})$</p>
+<p>或</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>第二种</th>
+<th>$king_l$</th>
+<th>$king_r$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>$l_2$</td>
+<td>$r_2$</td>
+</tr>
+<tr>
+<td>2</td>
+<td>$l_1$</td>
+<td>$r_1$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>$ans_2=\max(\frac{king_l}{r_2},\frac{king_l\times l_2}{r_1})$</p>
+<p>显然有 $\frac{king_l\times l_1}{r_2}\ge \frac{king_l}{r_2}$和$\frac{king_l\times l_2}{r_1}\ge \frac{king_l}{r_1}$。因此，如果 $ans_1\le ans_2$，就有 $\frac{king_l\times l_1}{r_2}\le \frac{king_l\times l_2}{r_1}$，即 $l_1\times r_1\le l_2\times r_2$。从中可以发现，对于两个相邻的大臣，将左右手数字乘积小的排在前面可以使这两个人的最大金币数达到最小。而对于所有的大臣，每个大臣前面的人只要固定不变，无论他们如何排列都不会影响这个大臣的收入，当然他身后的大臣也不会对他造成影响。所以我们可以对所有人左右手数据的积进行一次排序，然后从小到大安排位次，然后统计最大值即可，这里数据很大，需要用到高精度乘除法。</p>
+<h1 id="AC代码："><a href="#AC代码：" class="headerlink" title="AC代码："></a>AC代码：</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">int</span> m;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">long</span> <span class="keyword">long</span> mod = <span class="number">40961</span>, G = <span class="number">3</span>, Ginv = (mod + <span class="number">1</span>) / <span class="number">3</span>;</span><br><span class="line"><span class="keyword">int</span> r[<span class="number">240100</span>];</span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">long</span> <span class="title">ksm</span><span class="params">(<span class="keyword">long</span> <span class="keyword">long</span> a, <span class="keyword">long</span> <span class="keyword">long</span> b, <span class="keyword">long</span> <span class="keyword">long</span> mod)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (; b; b &gt;&gt;= <span class="number">1</span>, a = a * a % mod)</span><br><span class="line">        <span class="keyword">if</span> (b &amp; <span class="number">1</span>)</span><br><span class="line">            ans = ans * a % mod;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">NTT</span><span class="params">(<span class="keyword">int</span> limit, <span class="keyword">long</span> <span class="keyword">long</span> *l, <span class="keyword">int</span> opt)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; limit; ++i)</span><br><span class="line">        <span class="keyword">if</span> (i &lt; r[i])</span><br><span class="line">            swap(l[i], l[r[i]]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> mid = <span class="number">1</span>; mid &lt; limit; mid &lt;&lt;= <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> wn, len = mid &lt;&lt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (opt == <span class="number">1</span>)</span><br><span class="line">            wn = ksm(G, (mod - <span class="number">1</span>) / len, mod);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            wn = ksm(Ginv, (mod - <span class="number">1</span>) / len, mod);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; limit; j += len)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">long</span> <span class="keyword">long</span> w = <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k = j; k &lt; mid + j; ++k, (w *= wn) %= mod)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> x = l[k], y = w * l[k + mid] % mod;</span><br><span class="line">                l[k] = (x + y) % mod;</span><br><span class="line">                l[k + mid] = (x - y + mod) % mod;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (opt == <span class="number">-1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">long</span> inv = ksm(limit, mod - <span class="number">2</span>, mod);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= limit; i++)</span><br><span class="line">            l[i] = l[i] * inv % mod;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">BigInt</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="keyword">bool</span> Is_Pos;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> v[<span class="number">5000</span>];</span><br><span class="line">    BigInt()</span><br><span class="line">    &#123;</span><br><span class="line">        len = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">memset</span>(v, <span class="number">0</span>, <span class="keyword">sizeof</span>(v));</span><br><span class="line">        Is_Pos = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    BigInt(<span class="keyword">int</span> x)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (x &gt;= <span class="number">0</span>)</span><br><span class="line">            Is_Pos = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            x = -x, Is_Pos = <span class="number">0</span>;</span><br><span class="line">        len = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">memset</span>(v, <span class="number">0</span>, <span class="keyword">sizeof</span>(v));</span><br><span class="line">        <span class="keyword">while</span> (x)</span><br><span class="line">        &#123;</span><br><span class="line">            v[++len] = x % <span class="number">10</span>;</span><br><span class="line">            x /= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (a.len &lt; b.len)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (a.len &gt; b.len)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = a.len; i &gt;= <span class="number">1</span>; --i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (a.v[i] &lt; b.v[i])</span><br><span class="line">                <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span> (a.v[i] &gt; b.v[i])</span><br><span class="line">                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">BigInt n, a, b;</span><br><span class="line">ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;out, <span class="keyword">const</span> BigInt &amp;a);</span><br><span class="line">istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;in, BigInt &amp;a);</span><br><span class="line">BigInt <span class="keyword">operator</span>-(BigInt a, BigInt b);</span><br><span class="line">BigInt <span class="keyword">operator</span>+(BigInt a, BigInt b);</span><br><span class="line">BigInt <span class="keyword">operator</span>*(BigInt a, BigInt b);</span><br><span class="line">BigInt <span class="keyword">operator</span>+(BigInt a, BigInt b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!a.Is_Pos &amp;&amp; !b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        a.Is_Pos = b.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        BigInt c = a + b;</span><br><span class="line">        c.Is_Pos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!a.Is_Pos &amp;&amp; b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        a.Is_Pos = b.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> b - a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (a.Is_Pos &amp;&amp; !b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        a.Is_Pos = b.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> a - b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> len = a.len + b.len;</span><br><span class="line">    BigInt c;</span><br><span class="line">    c.len = len;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= len; ++i)</span><br><span class="line">        c.v[i] = a.v[i] + b.v[i];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= len; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (c.v[i] &gt;= <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            ++c.v[i + <span class="number">1</span>];</span><br><span class="line">            c.v[i] -= <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (c.len &amp;&amp; !c.v[c.len])</span><br><span class="line">        c.len--;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line">BigInt <span class="keyword">operator</span>-(BigInt a, BigInt b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!a.Is_Pos &amp;&amp; !b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        a.Is_Pos = b.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> b - a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!a.Is_Pos &amp;&amp; b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        a.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        BigInt c = a + b;</span><br><span class="line">        c.Is_Pos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (a.Is_Pos &amp;&amp; !b.Is_Pos)</span><br><span class="line">    &#123;</span><br><span class="line">        b.Is_Pos = <span class="number">1</span>;</span><br><span class="line">        BigInt c = a + b;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (a.Is_Pos &amp;&amp; b.Is_Pos &amp;&amp; a &lt; b)</span><br><span class="line">    &#123;</span><br><span class="line">        BigInt c = b - a;</span><br><span class="line">        c.Is_Pos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> len = <span class="built_in">max</span>(a.len, b.len);</span><br><span class="line">    BigInt c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= len; ++i)</span><br><span class="line">        c.v[i] = a.v[i] - b.v[i];</span><br><span class="line">    c.len = len;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= c.len; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (c.v[i] &lt; <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            c.v[i + <span class="number">1</span>]--;</span><br><span class="line">            c.v[i] += <span class="number">10</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (c.len &amp;&amp; !c.v[c.len])</span><br><span class="line">        c.len--;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line">BigInt <span class="keyword">operator</span>*(BigInt a, BigInt b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> limit = <span class="number">1</span>, tot, l = <span class="number">0</span>;</span><br><span class="line">    BigInt c;</span><br><span class="line">    a.len--;</span><br><span class="line">    b.len--;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= a.len; ++i)</span><br><span class="line">        a.v[i] = a.v[i + <span class="number">1</span>];</span><br><span class="line">    a.v[a.len + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= b.len; ++i)</span><br><span class="line">        b.v[i] = b.v[i + <span class="number">1</span>];</span><br><span class="line">    b.v[b.len + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (limit &lt;= a.len + b.len)</span><br><span class="line">        limit &lt;&lt;= <span class="number">1</span>, l++;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= limit; i++)</span><br><span class="line">        r[i] = (r[i &gt;&gt; <span class="number">1</span>] &gt;&gt; <span class="number">1</span>) | ((i &amp; <span class="number">1</span>) &lt;&lt; (l - <span class="number">1</span>));</span><br><span class="line">    NTT(limit, a.v, <span class="number">1</span>);</span><br><span class="line">    NTT(limit, b.v, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= limit; i++)</span><br><span class="line">        a.v[i] = a.v[i] * b.v[i] % mod;</span><br><span class="line">    NTT(limit, a.v, <span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= limit; i++)</span><br><span class="line">        c.v[i] = a.v[i];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= limit; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (c.v[i] &gt;= <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            c.v[i + <span class="number">1</span>] += c.v[i] / <span class="number">10</span>, c.v[i] %= <span class="number">10</span>;</span><br><span class="line">            <span class="keyword">if</span> (i + <span class="number">1</span> &gt; limit)</span><br><span class="line">                limit++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = limit; i &gt;= <span class="number">0</span>; i--)</span><br><span class="line">        <span class="keyword">if</span> (c.v[i] == <span class="number">0</span>)</span><br><span class="line">            limit--;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    c.len = limit + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = c.len; i &gt;= <span class="number">1</span>; --i)</span><br><span class="line">        c.v[i] = c.v[i - <span class="number">1</span>];</span><br><span class="line">    c.v[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= c.len; ++i)</span><br><span class="line">        swap(c.v[i], c.v[c.len - i + <span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (a.Is_Pos != b.Is_Pos)</span><br><span class="line">        c.Is_Pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        c.Is_Pos = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line">BigInt <span class="keyword">operator</span>/(BigInt a, <span class="keyword">long</span> <span class="keyword">long</span> b)</span><br><span class="line">&#123;</span><br><span class="line">    BigInt c;</span><br><span class="line">    <span class="keyword">int</span> d = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = a.len; i &gt;= <span class="number">1</span>; --i)</span><br><span class="line">        c.v[++c.len] = ((d * <span class="number">10</span> + a.v[i]) / b), d = (d * <span class="number">10</span> + a.v[i]) % b;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= c.len / <span class="number">2</span>; ++i)</span><br><span class="line">        swap(c.v[i], c.v[c.len - i + <span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">if</span> (!a.len || !b || (a.Is_Pos &amp;&amp; b &gt; <span class="number">0</span>) || (!a.Is_Pos &amp;&amp; b &lt; <span class="number">0</span>))</span><br><span class="line">        c.Is_Pos = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        c.Is_Pos = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (c.v[c.len] == <span class="number">0</span> &amp;&amp; c.len &gt; <span class="number">1</span>)</span><br><span class="line">        --c.len;</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line">BigInt <span class="keyword">operator</span>%(BigInt a, <span class="keyword">long</span> <span class="keyword">long</span> b)</span><br><span class="line">&#123;</span><br><span class="line">    BigInt c = a / b;</span><br><span class="line">    <span class="keyword">return</span> a - c * b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>&gt;(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> b &lt; a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>!=(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b || a &lt; b)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (a != b)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>&lt;=(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>&gt;=(<span class="keyword">const</span> BigInt &amp;a, <span class="keyword">const</span> BigInt &amp;b)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (a &lt; b)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream &amp;in, BigInt &amp;a) <span class="comment">//cin</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">char</span> lin[<span class="number">5010</span>];</span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>, lin + <span class="number">1</span>);</span><br><span class="line">    len = a.len = <span class="built_in">strlen</span>(lin + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (lin[<span class="number">1</span>] == <span class="string">'-'</span>)</span><br><span class="line">        a.Is_Pos = <span class="number">0</span>, a.len--;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        a.Is_Pos = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= a.len; ++i)</span><br><span class="line">        a.v[i] = lin[len - i + <span class="number">1</span>] - <span class="string">'0'</span>;</span><br><span class="line">    <span class="keyword">return</span> in;</span><br><span class="line">&#125;</span><br><span class="line">ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;out, <span class="keyword">const</span> BigInt &amp;a) <span class="comment">//cout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!a.len)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"0"</span>;</span><br><span class="line">        <span class="keyword">return</span> out;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!a.Is_Pos)</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"-"</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = a.len; i &gt;= <span class="number">1</span>; i--)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d"</span>, a.v[i]);</span><br><span class="line">    <span class="keyword">return</span> out;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> data = <span class="number">0</span>, f = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span> (ch &lt; <span class="string">'0'</span> || ch &gt; <span class="string">'9'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (ch == <span class="string">'-'</span>)</span><br><span class="line">            f = <span class="number">-1</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        data = (data &lt;&lt; <span class="number">3</span>) + (data &lt;&lt; <span class="number">1</span>) + ch - <span class="string">'0'</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> f * data;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ppp</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    BigInt lft, mul;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> rht;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;ppp&gt; v;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(ppp a, ppp b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.mul &lt; b.mul;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> nm;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; nm;</span><br><span class="line">    BigInt ans, kingr;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; ans &gt;&gt; kingr;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= nm; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        ppp kkk;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; kkk.lft &gt;&gt; kkk.rht;</span><br><span class="line">        kkk.mul = kkk.lft * kkk.rht;</span><br><span class="line">        v.push_back(kkk);</span><br><span class="line">    &#125;</span><br><span class="line">    sort(v.<span class="built_in">begin</span>(), v.<span class="built_in">end</span>(), cmp);</span><br><span class="line">    BigInt maxans = ans / v[<span class="number">0</span>].rht;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; nm; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        ans = ans * v[i - <span class="number">1</span>].lft;</span><br><span class="line">        <span class="keyword">if</span> (maxans &lt; ans / v[i].rht)</span><br><span class="line">            maxans = ans / v[i].rht;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; maxans;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/18/P1080-Solution/" data-id="ck6rzt4hu000u4gv90b815myl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/9999/12/31/main/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          首页[置顶]
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/18/P1233-Solution/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">洛谷P1233题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CodeForces/" rel="tag">CodeForces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cpp/" rel="tag">Cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UVa/" rel="tag">UVa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2020%E5%AF%92%E5%81%87/" style="font-size: 18.33px;">2020寒假</a> <a href="/tags/CodeForces/" style="font-size: 15px;">CodeForces</a> <a href="/tags/Cpp/" style="font-size: 10px;">Cpp</a> <a href="/tags/UVa/" style="font-size: 10px;">UVa</a> <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 11.67px;">其它</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 16.67px;">数据结构</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 13.33px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/9999/12/31/main/">首页[置顶]</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/18/P1080-Solution/">洛谷P1080题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/18/P1233-Solution/">洛谷P1233题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/18/P4017-Solution/">洛谷P4017题解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/17/P5318-Solution/">洛谷P5318题解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Watson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
