@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>欧拉函数 | Watson&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介：欧拉函数 $\varphi (x)$ 表示在不大于 $x$ 的正整数中与 $x$ 互质的数的个数，规定 $\varphi (1)&#x3D;1$。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="欧拉函数">
+<meta property="og:url" content="http://yoursite.com/2020/02/28/Euler_Function/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="简介：欧拉函数 $\varphi (x)$ 表示在不大于 $x$ 的正整数中与 $x$ 互质的数的个数，规定 $\varphi (1)&#x3D;1$。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/02/28/nNbpRHGS6Z4c2BM.jpg">
+<meta property="article:published_time" content="2020-02-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-02-28T14:34:55.544Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="数论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/02/28/nNbpRHGS6Z4c2BM.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Watson&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Think twice,code once</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Euler_Function" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/28/Euler_Function/" class="article-date">
+  <time datetime="2020-02-27T16:00:00.000Z" itemprop="datePublished">2020-02-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      欧拉函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="简介："><a href="#简介：" class="headerlink" title="简介："></a>简介：</h1><p>欧拉函数 $\varphi (x)$ 表示在不大于 $x$ 的正整数中与 $x$ 互质的数的个数，规定 $\varphi (1)=1$。 </p>
+<a id="more"></a>
+<h1 id="推导："><a href="#推导：" class="headerlink" title="推导："></a>推导：</h1><h2 id="1-分解质因数："><a href="#1-分解质因数：" class="headerlink" title="1.分解质因数："></a>1.分解质因数：</h2><p>若正整数 $n$ 的唯一分解式 $n=p_1^{a_1}p_2^{a_2}p_3^{a_3} \cdots \,p_k^{a_k}$，根据乘法原理，$n$ 的正约数个数为 $\prod_{i=1}^k(a_i+1)=(a_1+1)(a_2+1)\cdots (a_k+1)$。</p>
+<p>得到正整数 $n$ 的唯一分解式是算出 $\varphi(n)$ 的前提条件。</p>
+<h2 id="2-特殊情形"><a href="#2-特殊情形" class="headerlink" title="2.特殊情形"></a>2.特殊情形</h2><p>1.若 $n$ 是质数，显然 $\varphi(n)=n-1$。</p>
+<p>2.若 $n=p^k$，$\varphi(n)=(p-1)\times p^{k-1}$，这一点也容易发现，因为在 $[1,n]$ 中 $p$ 的倍数一共有 $p^{k-1}$ 个，只有这些数是和 $n$ 不互质的。</p>
+<p>3.若 $p,q$ 互质，有 $\varphi(p\times q)=\varphi(p)\times\varphi(q)$，即欧拉函数是一个<strong>积性函数</strong>，这个性质需要用中国剩余定理和完全剩余系才能证明。</p>
+<h2 id="3-一般情况"><a href="#3-一般情况" class="headerlink" title="3.一般情况"></a>3.一般情况</h2><p>根据容斥原理，可以先得到一个暴力的公式：$\displaystyle \varphi(n)=\sum_{S\subseteq\{p_1,p_2,\cdots p_n\}}(-1)^{|S|}\frac{n}{\prod_{p_i\in S}p_i}$，这个式子的计算原理就是在 $n$ 中先减去同时是一个素因子的倍数的个数，再加上同时是两个素因子的个数…以此类推，很明显用这个东西去做题是不现实的，而欧拉函数还有一个更好的计算方式：</p>
+<p>结合几种特殊情形，可以推导出一般情况的欧拉函数计算方法，$\varphi(n)=\prod_{i=1}^k\varphi(p_i^{a_i})$（3），而</p>
+<p>$\varphi(p_i^{a_i})=p_i^{a_i-1}\times (p_i-1)=p_i^{a_i}(1-\frac{1}{p_i})$（2），这样乘起来以后得到 $\varphi(n)=n\prod_{i=1}^k(1-\frac 1{p_i})$，这个公式就简洁了很多。根据这个公式又可以得到以下的一个小结论：</p>
+<p>对于质数 $p$，若 $p$ 是 $n$ 的约数，有 $\varphi(n\times p)=\varphi(n)\times p$，因为在 $\varphi(n)$ 的计算中已经有了 $1-\frac 1p$，所以直接乘在外面就可以了；若 $p$ 不是 $n$ 的约数，有 $\varphi(n\times p)=\varphi(n)\times (p-1)$（特殊情形3）。</p>
+<h1 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h1><h2 id="单个欧拉函数的求解"><a href="#单个欧拉函数的求解" class="headerlink" title="单个欧拉函数的求解"></a>单个欧拉函数的求解</h2><p>分解质因数，然后用上面的公式求解，时间复杂度 $O(k\sqrt n)$。</p>
+<p><del>还要再快的话还有Pollard Rho算法。</del></p>
+<h2 id="一系列数的欧拉函数的求解"><a href="#一系列数的欧拉函数的求解" class="headerlink" title="一系列数的欧拉函数的求解"></a>一系列数的欧拉函数的求解</h2><p>先放一个紫书上时间复杂度 $O(n\log \log n)$ 的代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i)</span><br><span class="line">        phi[i] = <span class="number">0</span>;</span><br><span class="line">    phi[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i)&#123;</span><br><span class="line">        <span class="keyword">if</span> (!phi[i])</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt;= n; j += i)&#123;</span><br><span class="line">                <span class="keyword">if</span> (!phi[j])</span><br><span class="line">                    phi[j] = j;</span><br><span class="line">                phi[j] = phi[j] / i * (i - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种做法的原理和埃氏筛相似，每当遇到一个质数就去找它的所有倍数，如果这个数之前已经被其他的质数经过（即已经乘过计算公式的第一项，这个数的本体），就直接乘 $1-\frac 1p$ 这一项，否则就先乘一个本体再这样处理，全部完成后的效果就相当于用公式算一遍。</p>
+<p>而根据欧拉筛的原理，结合由公式得出的小结论，还可以得到线性复杂度的求解方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> is_prime[maxn];<span class="comment">//或者bitset</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vp;</span><br><span class="line"><span class="keyword">int</span> phi[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i)</span><br><span class="line">        is_prime[i] = <span class="literal">true</span>;</span><br><span class="line">    phi[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; ++i)&#123;<span class="comment">//线性筛</span></span><br><span class="line">        <span class="keyword">if</span> (is_prime[i])</span><br><span class="line">            phi[i] = i - <span class="number">1</span>, vp.push_back(i);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; vp.<span class="built_in">size</span>(); ++j)&#123;</span><br><span class="line">            tmp = i * vp[j];</span><br><span class="line">            <span class="keyword">if</span> (tmp &gt; n)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            is_prime[tmp] = <span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (i % vp[j])<span class="comment">//结论</span></span><br><span class="line">                phi[tmp] = phi[i] * (vp[j] - <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                phi[tmp] = phi[i] * vp[j];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就写到这里吧</p>
+<p><img src="https://i.loli.net/2020/02/28/nNbpRHGS6Z4c2BM.jpg" alt="ee"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/28/Euler_Function/" data-id="ck76a4rse0005h0v9b4zz8t6p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/9999/12/31/main/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          首页[置顶]
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/25/Ex_GCD/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">扩展欧几里得算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CodeForces/" rel="tag">CodeForces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cpp/" rel="tag">Cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UVa/" rel="tag">UVa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/2020%E5%AF%92%E5%81%87/" style="font-size: 20px;">2020寒假</a> <a href="/tags/CodeForces/" style="font-size: 16px;">CodeForces</a> <a href="/tags/Cpp/" style="font-size: 10px;">Cpp</a> <a href="/tags/UVa/" style="font-size: 12px;">UVa</a> <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 12px;">其它</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 18px;">数据结构</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 12px;">数论</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 14px;">算法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/9999/12/">December 9999</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/9999/12/31/main/">首页[置顶]</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/28/Euler_Function/">欧拉函数</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/25/Ex_GCD/">扩展欧几里得算法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/24/2020-2/">2020寒假总结</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/23/P1313-Solution/">洛谷P1313题解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Watson<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!--script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
