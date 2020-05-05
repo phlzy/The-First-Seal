@@ -5,21 +5,24 @@
   
 
   
-  <title>洛谷P6102题解 | Watson&#39;s Blog</title>
+  <title>2020-5，随便写一点 | Watson&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="链接：P6102">
+  <meta name="description" content="前几天打了个校赛成绩还可以，做一下总结顺便写点别的东西。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="洛谷P6102题解">
-<meta property="og:url" content="http://yoursite.com/2020/02/23/P6102-Solution/index.html">
+<meta property="og:title" content="2020-5，随便写一点">
+<meta property="og:url" content="http://yoursite.com/2020/05/05/2020-5/index.html">
 <meta property="og:site_name" content="Watson&#39;s Blog">
-<meta property="og:description" content="链接：P6102">
+<meta property="og:description" content="前几天打了个校赛成绩还可以，做一下总结顺便写点别的东西。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-23T05:28:50.259Z">
+<meta property="og:image" content="https://i.loli.net/2020/05/05/bvXKsyZd83aQnhi.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/05/05/4jzEUbRx67wOGtu.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/05/05/6G97InpmXgPzuKr.jpg">
+<meta property="article:published_time" content="2020-05-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-05T15:39:31.128Z">
 <meta property="article:author" content="Watson">
-<meta property="article:tag" content="2020寒假">
-<meta property="article:tag" content="洛谷">
+<meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/05/bvXKsyZd83aQnhi.jpg">
   
     <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
   
@@ -72,10 +75,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-P6102-Solution" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-2020-5" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/02/23/P6102-Solution/" class="article-date">
-  <time datetime="2020-02-22T16:00:00.000Z" itemprop="datePublished">2020-02-23</time>
+    <a href="/2020/05/05/2020-5/" class="article-date">
+  <time datetime="2020-05-04T16:00:00.000Z" itemprop="datePublished">2020-05-05</time>
 </a>
     
   </div>
@@ -86,7 +89,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      洛谷P6102题解
+      2020-5，随便写一点
     </h1>
   
 
@@ -94,18 +97,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="链接：P6102"><a href="#链接：P6102" class="headerlink" title="链接：P6102"></a>链接：<a href="https://www.luogu.com.cn/problem/P6102" target="_blank" rel="noopener">P6102</a></h3><a id="more"></a>
-<h1 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h1><p>最初的想法是打一个 $O(n^4)$ 的大暴力，当然只能拿15分，数据范围显示只有优于 $O(n^2)$ 的算法才有可能过这道题。通过手动模拟可以找到这道题的一些规律，只有 $a|b=1,c\&amp;d=0$ 或 $a|b=0,c\&amp;d=1$ 的组合才会对最终答案产生影响，而每个数都不大于 $2^{32}$，所以可以枚举每个数的每一个二进制位，在线性的复杂度完成本题。</p>
-<p>找到正确复杂度的方法后考虑实现过程：不同的二进制位相互没有任何关系，所以可以用一个数组存储；对于每一位， $a|b$ 和 $c\&amp;d$ 均有 $n^2$ 种组合方式，其中 $a|b=1$ 的个数是这一位上1的个数的平方，而 $c\&amp;d=0$ 的个数是这一位上0的个数的平方，所以统计每一位上1的个数就可以算出这一位对最后答案的贡献。最后将每一位左移相应的位数再全部加起来即可。</p>
-<h1 id="AC代码："><a href="#AC代码：" class="headerlink" title="AC代码："></a>AC代码：</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">long</span> ll;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> ull;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> uint;</span><br><span class="line"><span class="keyword">typedef</span> pair&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; pii;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> uint <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    uint data = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> ch = getchar();</span><br><span class="line">    <span class="keyword">while</span> (ch &lt; <span class="string">'0'</span> || ch &gt; <span class="string">'9'</span>)</span><br><span class="line">        ch = getchar();</span><br><span class="line">    <span class="keyword">while</span> (ch &gt;= <span class="string">'0'</span> &amp;&amp; ch &lt;= <span class="string">'9'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        data = (data &lt;&lt; <span class="number">3</span>) + (data &lt;&lt; <span class="number">1</span>) + ch - <span class="string">'0'</span>;</span><br><span class="line">        ch = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> data;</span><br><span class="line">&#125;</span><br><span class="line">uint w[<span class="number">33</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    uint n = <span class="built_in">read</span>(), x, ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (uint i = <span class="number">0</span>; i &lt; n; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        x = <span class="built_in">read</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">32</span>; ++j)</span><br><span class="line">            <span class="keyword">if</span> ((x &gt;&gt; j) &amp; <span class="number">1</span>)</span><br><span class="line">                w[j]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (uint i = <span class="number">0</span>; i &lt; <span class="number">32</span>; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        uint a = w[i] * w[i], o = (n - w[i]) * (n - w[i]);</span><br><span class="line">        ans += (a * o + (n * n - a) * (n * n - o)) &lt;&lt; i;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%u\n"</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>前几天打了个校赛成绩还可以，做一下总结顺便写点别的东西。</p>
+<a id="more"></a>
+<p>这次比赛<strong>B、D</strong>水题，没什么好说的；</p>
+<p><strong>A</strong>前缀和处理，这个数据显然不能暴力，但是做的时候第一时间却想到ST表结果没搞出来，后来树状数组过的，原理上差不多，就是稍微浪费了一点时间；</p>
+<p><strong>G</strong>明显树状数组或者线段树，$\le 10$ 看成 $\lt 10$ 导致多了一些罚时；</p>
+<p><strong>C</strong>虚树和点分治都不会，std没想到，本来想搜索试试看到数据范围放弃了，不过其实可以碰碰运气；</p>
+<p><strong>E</strong>字典树最短路都很不熟练，看到直接跳了，尤其是字典树几乎已经忘记了，要再去看一看；</p>
+<p><strong>F</strong>对于我这样的计算几何白痴来说过不了也一点都不意外；</p>
+<p><strong>H、I</strong>都没什么想法，不会做也正常。</p>
+<p>总的来说会做的都过了，不会的也没骗到分，前段时间也没练题，CF的分也还是非常低，等这段时间考试什么的应付好又该好好搞一搞这些东西了。</p>
+<p>最近总是想思考一些事情，越思考又越不想思考下去，什么都想做，又什么都不想做，搞的很彷徨，不知道在干什么。好久没更博客了，接下来还是要多写点东西给自己一点目标。</p>
+<p><img src="https://i.loli.net/2020/05/05/bvXKsyZd83aQnhi.jpg" alt="001.jpg"></p>
+<p><img src="https://i.loli.net/2020/05/05/4jzEUbRx67wOGtu.jpg" alt="002.jpg"></p>
+<p><img src="https://i.loli.net/2020/05/05/6G97InpmXgPzuKr.jpg" alt="003.jpg"></p>
+<p>放三张超好看的Tifa鼓励一下自己。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/23/P6102-Solution/" data-id="ck9u2x4g00037asv9hsrx2slp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/05/05/2020-5/" data-id="ck9u2x4dl0000asv9fljnart4" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
 
     </footer>
   </div>
@@ -113,19 +127,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/02/23/P1313-Solution/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/9999/12/31/main/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          洛谷P1313题解
+          首页[置顶]
         
       </div>
     </a>
   
   
-    <a href="/2020/02/22/P1330-Solution/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/04/20/HS/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">洛谷P1330题解</div>
+      <div class="article-nav-title">退坑时的一些想法</div>
     </a>
   
 </nav>
