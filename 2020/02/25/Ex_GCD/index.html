@@ -15,7 +15,7 @@
 <meta property="og:description" content="扩展欧几里得算法可以找出一对整数 $(x,y)$，使得 $ax+by&#x3D;\gcd(a,b)$。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-25T13:12:18.760Z">
+<meta property="article:modified_time" content="2020-07-19T00:34:59.497Z">
 <meta property="article:author" content="Watson">
 <meta property="article:tag" content="数论">
 <meta name="twitter:card" content="summary">
@@ -98,6 +98,7 @@
 <p>首先放上欧几里得算法，就是小学数学中的辗转相除法求最大公约数：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gcd</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !b ? a : gcd(b, a % b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>该算法的正确性是显而易见的。利用欧几里得算法可以在 $O(\log n)$ 的时间中算出最大公约数。</p>
+<p>由裴蜀定理，可以得知该不定方程是有解的。</p>
 <p>下面来对式子 $ax+by=\gcd(a,b)$ 做一点变形：$ax+by=\gcd(a,b)=\gcd(b,a\mod b)$，有 $bx+(a\mod b)y=bx+(a-\lfloor \frac a b \rfloor b)y=\gcd(b,a\mod b)$，即 $ay+b(x-\lfloor \frac a b \rfloor y)=\gcd(b,a\mod b)$，这意味着可以递归求解 $(x,y)$。这个递归过程和欧几里得算法的递归是一样的，在递归边界 $b=0$ 处，可以发现 $\gcd(a,0)=a$，所以 $x=1,y=0$。</p>
 <p>以上过程可以得到这样的代码：（$d$ 是最大公约数）</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">exgcd</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, <span class="keyword">int</span> &amp;d, <span class="keyword">int</span> &amp;x, <span class="keyword">int</span> &amp;y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (b == <span class="number">0</span>)</span><br><span class="line">        d = a, x = <span class="number">1</span>, y = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">        exgcd(b, a % b, d, y, x);</span><br><span class="line">        y -= x * (a / b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -112,7 +113,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/25/Ex_GCD/" data-id="ckcpx47cd000l0gv9f3bv364y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/25/Ex_GCD/" data-id="ckcsqmqgw000h3kv9f5kfcu54" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li></ul>
