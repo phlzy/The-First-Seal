@@ -7,16 +7,16 @@
   
   <title>洛谷7月月赛div2 | Watson&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="题解还没出，先记录一下比赛的时候胡思乱想的东西">
+  <meta name="description" content="在出题解之前口胡了一些思路，现在把之前想错的和没写的补上。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="洛谷7月月赛div2">
 <meta property="og:url" content="http://yoursite.com/2020/07/25/LGR-073div2/index.html">
 <meta property="og:site_name" content="Watson&#39;s Blog">
-<meta property="og:description" content="题解还没出，先记录一下比赛的时候胡思乱想的东西">
+<meta property="og:description" content="在出题解之前口胡了一些思路，现在把之前想错的和没写的补上。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.loli.net/2020/07/25/NGbP53ZU69HFqOa.jpg">
 <meta property="article:published_time" content="2020-07-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-07-25T10:13:13.451Z">
+<meta property="article:modified_time" content="2020-08-06T12:36:59.007Z">
 <meta property="article:author" content="Watson">
 <meta property="article:tag" content="洛谷">
 <meta name="twitter:card" content="summary">
@@ -95,22 +95,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>题解还没出，先记录一下比赛的时候胡思乱想的东西</p>
+        <p>在出题解之前口胡了一些思路，现在把之前想错的和没写的补上。</p>
 <a id="more"></a>
 <h2 id="A-amp-B"><a href="#A-amp-B" class="headerlink" title="A&amp;B"></a>A&amp;B</h2><p>A二分答案，不卡精度，很简单；</p>
 <p>B算一下前缀和，后面计算取模的时候注意一下顺序，也没什么问题。</p>
+<p><em>没什么问题</em></p>
 <h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><p>应该是一个DP，容易发现每一列在旋转的时候是不会变的，而上下是否颠倒与其旋转次数奇偶有关，所以可以判断能否做出目标形状，最少次数应该是从某个边缘开始逐渐还原的顺序需要的次数。没写代码不知道这个思路对不对。</p>
+<p><em>观察到的性质没有问题，确实需要利用这个性质来解题，但是需要转化后通过计算逆序对的方法求解。</em></p>
 <h2 id="D"><a href="#D" class="headerlink" title="D"></a>D</h2><p>写这篇文章就是为了记下看到D题以后我的胡思乱想。</p>
 <p>看到单点修改先想到树状数组，但是显然没法完成区间排序判断。区间排序会打乱元素顺序，那么差分就没有用，每次排序用时 $(r-l)\log(r-l)$，太长，考虑用一个map之类的东西存放，这样如果重复元素多的话会好一点。但是这样做显然是不行的，首先不可能每次把区间的一堆东西丢进map，这样比直接排序还慢，而如果用类似前缀和的思想，开 $n$ 个map，那不仅空间会爆炸，map的复制也是个问题。因为要有序，所以不能用hash。</p>
 <p>第二个想法是用珂朵莉树，每次查询区间的时候把没有的区间放进set，有的区间split掉得到要求的区间，但是这样同样需要很多的map，并且复杂度不见得优秀到哪里去，估计也是不行的。</p>
 <p>然后想如果搞一棵树去存序列的点的话也是修改比较方便，判断操作是很麻烦的，还是需要维护序列的数据结构，或许可以把线段树的结构修改一下，下面的叶子存储数据，在上面建一个类似于平衡树的结构？不知道有什么神奇的结构可以搞这样的序列。</p>
-<p>慢慢等题解出来吧</p>
+<p><em>本题的正解是线段树与哈希，需要将一个区间哈希成一个值，非常巧妙。从来没有想过还可以有这样的做法。</em></p>
+<p>8月月赛快来了，7月236pts，下次希望能超过250pts。</p>
 <p><img src="https://i.loli.net/2020/07/25/NGbP53ZU69HFqOa.jpg" alt="200725.jpg"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/25/LGR-073div2/" data-id="ckdh8g048001d1wv96vy3e15i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/07/25/LGR-073div2/" data-id="ckdiscgkl0012egv926pngxxb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li></ul>
