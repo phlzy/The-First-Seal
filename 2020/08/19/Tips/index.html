@@ -5,14 +5,19 @@
   
 
   
-  <title>Archives: 2020/2 | Watson&#39;s Blog</title>
+  <title>经验总结（更新中） | Watson&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Watson&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2020/02/page/6/index.html">
+  <meta name="description" content="在这里总结一些踩过的坑以及一些小技巧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经验总结（更新中）">
+<meta property="og:url" content="http://yoursite.com/2020/08/19/Tips/index.html">
 <meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="在这里总结一些踩过的坑以及一些小技巧。">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-19T12:36:33.243Z">
 <meta property="article:author" content="Watson">
+<meta property="article:tag" content="其它">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Watson&#39;s Blog" type="application/atom+xml">
@@ -66,159 +71,82 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/03/CF2A-Solution/" class="archive-article-date">
-  <time datetime="2020-02-02T16:00:00.000Z" itemprop="datePublished">Feb 3</time>
+        <section id="main"><article id="post-Tips" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/19/Tips/" class="article-date">
+  <time datetime="2020-08-18T16:00:00.000Z" itemprop="datePublished">2020-08-19</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/03/CF2A-Solution/">CF2A题解</a>
+    <h1 class="article-title" itemprop="name">
+      经验总结（更新中）
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/03/Monotone_Queue/" class="archive-article-date">
-  <time datetime="2020-02-02T16:00:00.000Z" itemprop="datePublished">Feb 3</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/03/Monotone_Queue/">单调队列</a>
-    </h1>
-  
+        <p>在这里总结一些踩过的坑以及一些小技巧。</p>
+<a id="more"></a>
+<ul>
+<li>容易犯错的地方（fst原因大全）<ol>
+<li>数组大小有时候会是 $2\times 10^5$ 甚至是 $5\times 10^5$，不要想当然直接开 <code>maxn=1e5+9</code>，运气好的话在pretest中RE了还能查出来，要是运气不好过了pretest那就等着fst吧</li>
+<li>初始化的时候尽量写 <code>maxx=-inf,minn=inf</code> 这样的极端数据，无脑初始化为 <code>0</code> 是一个坏习惯</li>
+<li>不开 <code>long long</code> 见祖宗，被坑了无数次了</li>
+</ol>
+</li>
+<li>小优化<ol>
+<li>读01矩阵这样的东西用 <code>scanf(&quot;%c&quot;,&amp;x)</code> 比用 <code>scanf(&quot;%1d&quot;,&amp;x)</code> 稍微快一点</li>
+</ol>
+</li>
+<li>一些经验<ol>
+<li>指针和宏定义稍有不慎就会出奇怪的毛病且非常难以调试，用不好就不要用</li>
+<li>不要吃饱了撑着写一堆 <code>register</code> 变量或者位运算，有时候编译器自己会优化的，多用 <code>register</code> 并不一定使程序变快，甚至可能会负优化；多用位运算也不一定会变快，出错的概率倒是大大增加</li>
+<li>想不出做法的时候试试暴力，有奇效</li>
+</ol>
+</li>
+</ul>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/03/Segment_Tree/" class="archive-article-date">
-  <time datetime="2020-02-02T16:00:00.000Z" itemprop="datePublished">Feb 3</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/03/Segment_Tree/">线段树</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/02/Binary_Heap/" class="archive-article-date">
-  <time datetime="2020-02-01T16:00:00.000Z" itemprop="datePublished">Feb 2</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/19/Tips/" data-id="cke1i3adw007fecv96zel4adz" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/02/Binary_Heap/">二叉堆</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/02/P1280-Solution/" class="archive-article-date">
-  <time datetime="2020-02-01T16:00:00.000Z" itemprop="datePublished">Feb 2</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/02/P1280-Solution/">洛谷P1280题解</a>
-    </h1>
-  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/19/zkw_Segment_Tree/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          非递归式线段树
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/18/path_decomposition/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">树链剖分</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/01/Discretization-Solution/" class="archive-article-date">
-  <time datetime="2020-01-31T16:00:00.000Z" itemprop="datePublished">Feb 1</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/01/Discretization-Solution/">离散化练习 (P2082 P2070)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/02/01/Sparse_Table/" class="archive-article-date">
-  <time datetime="2020-01-31T16:00:00.000Z" itemprop="datePublished">Feb 1</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/02/01/Sparse_Table/">ST表(Sparse Table)</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/archives/2020/02/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/archives/2020/02/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/02/page/4/">4</a><a class="page-number" href="/archives/2020/02/page/5/">5</a><span class="page-number current">6</span>
-  </nav>
 
 </section>
         
