@@ -15,7 +15,7 @@
 <meta property="og:description" content="在这里总结一些踩过的坑以及一些小技巧。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-08-18T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-19T12:36:33.243Z">
+<meta property="article:modified_time" content="2020-08-24T14:14:32.287Z">
 <meta property="article:author" content="Watson">
 <meta property="article:tag" content="其它">
 <meta name="twitter:card" content="summary">
@@ -100,9 +100,11 @@
 <li>数组大小有时候会是 $2\times 10^5$ 甚至是 $5\times 10^5$，不要想当然直接开 <code>maxn=1e5+9</code>，运气好的话在pretest中RE了还能查出来，要是运气不好过了pretest那就等着fst吧</li>
 <li>初始化的时候尽量写 <code>maxx=-inf,minn=inf</code> 这样的极端数据，无脑初始化为 <code>0</code> 是一个坏习惯</li>
 <li>不开 <code>long long</code> 见祖宗，被坑了无数次了</li>
+<li><code>double</code> 的精度并没有想象的那么高，用的时候要小心</li>
 </ol>
 </li>
-<li>小优化<ol>
+<li><p>小优化</p>
+<ol>
 <li>读01矩阵这样的东西用 <code>scanf(&quot;%c&quot;,&amp;x)</code> 比用 <code>scanf(&quot;%1d&quot;,&amp;x)</code> 稍微快一点</li>
 </ol>
 </li>
@@ -110,6 +112,16 @@
 <li>指针和宏定义稍有不慎就会出奇怪的毛病且非常难以调试，用不好就不要用</li>
 <li>不要吃饱了撑着写一堆 <code>register</code> 变量或者位运算，有时候编译器自己会优化的，多用 <code>register</code> 并不一定使程序变快，甚至可能会负优化；多用位运算也不一定会变快，出错的概率倒是大大增加</li>
 <li>想不出做法的时候试试暴力，有奇效</li>
+<li>不只是序列可以分块做，图也是可以分块的</li>
+<li>单调栈非常有用（被这东西坑了两次了）</li>
+</ol>
+</li>
+<li><p>容易忘记的小知识点</p>
+<ol>
+<li><p>斐波那契数列通项公式 $\large f_n=\dfrac{(\frac{1+\sqrt 5}{2})^n-(\frac{1-\sqrt 5}{2})^n}{\sqrt 5}$</p>
+</li>
+<li><p>在只含加法和乘法的式子中，如果最后的运算结果需要对p取模，那么可以在运算过程中随便取模</p>
+</li>
 </ol>
 </li>
 </ul>
@@ -117,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/19/Tips/" data-id="cke6k0lxw00596gv9804y3wqh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/08/19/Tips/" data-id="ckefuieeu006d3gv95hs90a3w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li></ul>
@@ -159,7 +171,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CodeForces/" rel="tag">CodeForces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cpp/" rel="tag">Cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UVa/" rel="tag">UVa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/" rel="tag">小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/2020%E5%AF%92%E5%81%87/" rel="tag">2020寒假</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/AtCoder/" rel="tag">AtCoder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CodeForces/" rel="tag">CodeForces</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Cpp/" rel="tag">Cpp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/UVa/" rel="tag">UVa</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%85%B6%E5%AE%83/" rel="tag">其它</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag">复习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/" rel="tag">小工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E8%AE%BA/" rel="tag">数论</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%A8%A1%E6%9D%BF/" rel="tag">模板</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B4%9B%E8%B0%B7/" rel="tag">洛谷</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag">随笔</a></li></ul>
     </div>
   </div>
 
@@ -169,7 +181,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/2020%E5%AF%92%E5%81%87/" style="font-size: 18.57px;">2020寒假</a> <a href="/tags/CodeForces/" style="font-size: 15.71px;">CodeForces</a> <a href="/tags/Cpp/" style="font-size: 10px;">Cpp</a> <a href="/tags/UVa/" style="font-size: 11.43px;">UVa</a> <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 14.29px;">其它</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 12.86px;">图论</a> <a href="/tags/%E5%A4%8D%E4%B9%A0/" style="font-size: 10px;">复习</a> <a href="/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/" style="font-size: 11.43px;">小工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.14px;">数据结构</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 11.43px;">数论</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.43px;">模板</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.86px;">算法</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 11.43px;">随笔</a>
+      <a href="/tags/2020%E5%AF%92%E5%81%87/" style="font-size: 18.57px;">2020寒假</a> <a href="/tags/AtCoder/" style="font-size: 10px;">AtCoder</a> <a href="/tags/CodeForces/" style="font-size: 15.71px;">CodeForces</a> <a href="/tags/Cpp/" style="font-size: 10px;">Cpp</a> <a href="/tags/UVa/" style="font-size: 11.43px;">UVa</a> <a href="/tags/%E5%85%B6%E5%AE%83/" style="font-size: 14.29px;">其它</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 10px;">前端</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 12.86px;">图论</a> <a href="/tags/%E5%A4%8D%E4%B9%A0/" style="font-size: 10px;">复习</a> <a href="/tags/%E5%B0%8F%E5%B7%A5%E5%85%B7/" style="font-size: 11.43px;">小工具</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 17.14px;">数据结构</a> <a href="/tags/%E6%95%B0%E8%AE%BA/" style="font-size: 11.43px;">数论</a> <a href="/tags/%E6%A8%A1%E6%9D%BF/" style="font-size: 11.43px;">模板</a> <a href="/tags/%E6%B4%9B%E8%B0%B7/" style="font-size: 20px;">洛谷</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 12.86px;">算法</a> <a href="/tags/%E9%9A%8F%E7%AC%94/" style="font-size: 11.43px;">随笔</a>
     </div>
   </div>
 
@@ -199,15 +211,15 @@
           </li>
         
           <li>
+            <a href="/2020/08/29/ABC177/">AtCoder Beginner Contest 177</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/29/Splay_beta/">Splay区间操作</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/21/Splay/">Splay（伸展树）</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/19/Tips/">经验总结（更新中）</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/19/zkw_Segment_Tree/">非递归式线段树</a>
           </li>
         
       </ul>
