@@ -623,7 +623,7 @@ body::after {
   position: fixed;
   height: 100vh;
   z-index: -2;
-  background: url("/images/banner.jpg") no-repeat center/cover;
+  background: url("source/images/banner.png") no-repeat center/cover;
 }
 .container {
   white-space: normal;
@@ -947,6 +947,8 @@ body::after {
   text-align: center;
   color: #f5f6f7;
   background-color: #2d2e30;
+  z-index: 0;
+  background: url("source/images/bg.png") no-repeat center/cover;
 }
 .footer a {
   color: #c20808;
