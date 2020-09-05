@@ -1,0 +1,445 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.1.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.1.1" type="image/png" sizes="32x32"><meta name="description" content="整理了一下网络流最基础的概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最大流">
+<meta property="og:url" content="https://phlzy.github.io/2020/09/05/Maximum_Flow/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="整理了一下网络流最基础的概念。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/09/05/OAsfXIQBwocSazH.jpg">
+<meta property="article:published_time" content="2020-09-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-04T16:00:00.000Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/09/05/OAsfXIQBwocSazH.jpg"><title>最大流 | Watson's Blog</title><link ref="canonical" href="https://phlzy.github.io/2020/09/05/Maximum_Flow/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.1.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/friends/"><span class="header-nav-menu-item__icon"><i class="fas fa-user-friends"></i></span><span class="header-nav-menu-item__text">Friends</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">Search</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Watson's Blog</div><div class="header-banner-info__subtitle">Think twice,code once</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">最大流</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2020-09-05</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2020-09-05</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">Visited</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>整理了一下网络流最基础的概念。</p>
+<a id="more"></a>
+
+        <h1 id="基本概念">
+          <a href="#基本概念" class="heading-link"><i class="fas fa-link"></i></a>基本概念</h1>
+      <p>和拓扑排序类似，有向无自环连通图，有一个源点 $S$，一个汇点 $T$。</p>
+<p>每条边有一个容量 $c$。</p>
+
+        <h2 id="性质">
+          <a href="#性质" class="heading-link"><i class="fas fa-link"></i></a>性质</h2>
+      <p>显而易见的三个性质：</p>
+<ul>
+<li>容量限制：$\large f_{(u,v)}\le c_{(u,v)}$，每条边的流量当然不会超过其容量；</li>
+<li>斜对称性：$\large f_{(u,v)}=- f_{(v,u)}$，流出了 $f$ 自然就相当于流入了 $-f$；</li>
+<li>流量平衡：除了源点和汇点外的任意结点 $u$，$\large\sum_{(u,v)\in E}f_{(u,v)}=0$，就像基尔霍夫电流定律一样。</li>
+</ul>
+
+        <h2 id="容许流">
+          <a href="#容许流" class="heading-link"><i class="fas fa-link"></i></a>容许流</h2>
+      <p>对于每条边 $e$，给一个流量 $f_e$ 满足 $f_e\le c_e$，由于存在流量平衡，令总流量 $W=\sum_{e=(S,i)}f_e=\sum_{e=(i,T)}f_e$，这样的一组 $f$ 称为该网络的一个容许流。</p>
+<p>总流量 $W$ 最大的容许流就是该网络的最大流，显然最大流可能不是唯一的。</p>
+
+        <h2 id="残余容量">
+          <a href="#残余容量" class="heading-link"><i class="fas fa-link"></i></a>残余容量</h2>
+      <p>在选取了某个容许流之后，将这个容许流经过的每条边的容量减去相应的流量，剩下的容量就是残余容量（残量）。</p>
+<p>网络中所有节点以及剩余容量大于 $0$ 的边构成的子图被称为残量网络。</p>
+
+        <h2 id="增广路">
+          <a href="#增广路" class="heading-link"><i class="fas fa-link"></i></a>增广路</h2>
+      <p>从源点到汇点的一条残量均大于 $0$ 的路径被称为增广路。</p>
+<p>增广路定理：只要残量网络中存在增广路，总流量就可以增大，当不存在增广路的时候当前流也就是最大流了。</p>
+
+        <h2 id="反向弧">
+          <a href="#反向弧" class="heading-link"><i class="fas fa-link"></i></a>反向弧</h2>
+      <p>一条边可能被包含于多条增广路中，如果通过不断寻找增广路来求最大流，我们要让一条边拥有被多次选择的机会。</p>
+<p>为了解决这个问题，可以给每条边建立一条反向边，初始流量为 $0$，当某条边流出 $f$ 流量时，给它的反向边增加 $f$ 的流量，这样就相当于提供了反悔的机会。</p>
+
+        <h1 id="算法">
+          <a href="#算法" class="heading-link"><i class="fas fa-link"></i></a>算法</h1>
+      <p>$n$ 个点，$m$ 条边，最大流 $f$</p>
+
+        <h2 id="Ford-Fulkerson算法">
+          <a href="#Ford-Fulkerson算法" class="heading-link"><i class="fas fa-link"></i></a>Ford-Fulkerson算法</h2>
+      <p>就是上面说的通过不断找增广路来求最大流的方法，通过DFS实现，时间复杂度 $O(mf)$。</p>
+<p>由于复杂度与最大流有关，在数据比较极端的情况下，FF算法的表现会非常离谱。</p>
+<p>所以这个算法并没有什么用处。</p>
+
+        <h2 id="Edmond-Karp算法">
+          <a href="#Edmond-Karp算法" class="heading-link"><i class="fas fa-link"></i></a>Edmond-Karp算法</h2>
+      <p>这是BFS实现的FF算法，每次找到的是最短的增广路，时间复杂度 $O(nm^2)$，看起来稍微靠谱了一点，但是还是会被卡掉。</p>
+<p>代码参考紫书。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> from, to, cap, flow;</span><br><span class="line">    edge(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> c, <span class="keyword">int</span> f) : from(u), to(v), cap(c), flow(f) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">EK</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> n, m;</span><br><span class="line">    <span class="built_in">vector</span>&lt;edge&gt; e;</span><br><span class="line">    vi g[maxn];</span><br><span class="line">    <span class="keyword">int</span> a[maxn], p[maxn];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; ++i)</span><br><span class="line">            g[i].<span class="built_in">clear</span>();</span><br><span class="line">        e.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="keyword">int</span> cap)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        e.push_back(edge(from, to, cap, <span class="number">0</span>));</span><br><span class="line">        e.push_back(edge(to, from, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">        m = e.<span class="built_in">size</span>();</span><br><span class="line">        g[from].push_back(m - <span class="number">2</span>);</span><br><span class="line">        g[to].push_back(m - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function">ll <span class="title">maxflow</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ll flow = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (;;)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">memset</span>(a, <span class="number">0</span>, <span class="keyword">sizeof</span>(a));</span><br><span class="line">            <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; q;</span><br><span class="line">            q.push(s);</span><br><span class="line">            a[s] = inf;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (!q.empty())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">int</span> x = q.front();</span><br><span class="line">                q.pop();</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; g[x].<span class="built_in">size</span>(); ++i)</span><br><span class="line">                &#123;</span><br><span class="line">                    edge &amp;eg = e[g[x][i]];</span><br><span class="line">                    <span class="keyword">if</span> (!a[eg.to] &amp;&amp; eg.cap &gt; eg.flow)</span><br><span class="line">                    &#123;</span><br><span class="line">                        p[eg.to] = g[x][i];</span><br><span class="line">                        a[eg.to] = <span class="built_in">min</span>(a[x], eg.cap - eg.flow);</span><br><span class="line">                        q.push(eg.to);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (a[t])</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!a[t])</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> u = t; u != s; u = e[p[u]].from)</span><br><span class="line">            &#123;</span><br><span class="line">                e[p[u]].flow += a[t];</span><br><span class="line">                e[p[u] ^ <span class="number">1</span>].flow -= a[t];</span><br><span class="line">            &#125;</span><br><span class="line">            flow += a[t];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">EK solve;</span><br><span class="line"><span class="function"><span class="keyword">signed</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m, s, t;</span><br><span class="line">    <span class="built_in">read</span>(solve.n), <span class="built_in">read</span>(m), <span class="built_in">read</span>(s), <span class="built_in">read</span>(t);</span><br><span class="line">    solve.init(solve.n);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= m; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> u, v, w;</span><br><span class="line">        <span class="built_in">read</span>(u), <span class="built_in">read</span>(v), <span class="built_in">read</span>(w);</span><br><span class="line">        solve.add(u, v, w);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; solve.maxflow(s, t) &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+
+        <h2 id="Dinic算法">
+          <a href="#Dinic算法" class="heading-link"><i class="fas fa-link"></i></a>Dinic算法</h2>
+      <p>这是对EK算法的优化，先用BFS分层，预处理出源点到每个点的距离，再用DFS寻找。</p>
+<p>分层会带来的两点好处：</p>
+<ol>
+<li>如果不存在到汇点的增广路，就可以停止增广；</li>
+<li>确保找到最短的增广路；</li>
+</ol>
+<p>两个优化：</p>
+<pre><code>1. 多路增广：每找到一条增广路，如果残量还未用完就再找一条增广路，这样可以在一次DFS中找到多条增广路；
+ 2. 当前弧优化：如果一条边被增广过了，就不会被增广第二次，下次就不用经过这条边了。
+</code></pre><p>该算法的时间复杂度 $O(n^2m)$，在稠密图上的表现比EK算法好很多。</p>
+<p>在求解二分图最大匹配问题时，Dinic算法的时间复杂度是 $O(m\sqrt n)$，比匈牙利算法更优秀。</p>
+<p>模板来自<span class="exturl"><a class="exturl__link" href="https://oi-wiki.org/graph/flow/max-flow/" target="_blank" rel="noopener">OI wiki</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>。</p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> from, to, cap, flow;</span><br><span class="line">    Edge(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> c, <span class="keyword">int</span> f) : from(u), to(v), cap(c), flow(f) &#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Dinic</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> n, m, s, t;</span><br><span class="line">    <span class="built_in">vector</span>&lt;Edge&gt; edges;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; G[maxn];</span><br><span class="line">    <span class="keyword">int</span> d[maxn], cur[maxn];</span><br><span class="line">    <span class="keyword">bool</span> vis[maxn];</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">            G[i].<span class="built_in">clear</span>();</span><br><span class="line">        edges.<span class="built_in">clear</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">AddEdge</span><span class="params">(<span class="keyword">int</span> from, <span class="keyword">int</span> to, <span class="keyword">int</span> cap)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        edges.push_back(Edge(from, to, cap, <span class="number">0</span>));</span><br><span class="line">        edges.push_back(Edge(to, from, <span class="number">0</span>, <span class="number">0</span>));</span><br><span class="line">        m = edges.<span class="built_in">size</span>();</span><br><span class="line">        G[from].push_back(m - <span class="number">2</span>);</span><br><span class="line">        G[to].push_back(m - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">BFS</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(vis, <span class="number">0</span>, <span class="keyword">sizeof</span>(vis));</span><br><span class="line">        <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt; Q;</span><br><span class="line">        Q.push(s);</span><br><span class="line">        d[s] = <span class="number">0</span>;</span><br><span class="line">        vis[s] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (!Q.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> x = Q.front();</span><br><span class="line">            Q.pop();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; G[x].<span class="built_in">size</span>(); i++)</span><br><span class="line">            &#123;</span><br><span class="line">                Edge &amp;e = edges[G[x][i]];</span><br><span class="line">                <span class="keyword">if</span> (!vis[e.to] &amp;&amp; e.cap &gt; e.flow)</span><br><span class="line">                &#123;</span><br><span class="line">                    vis[e.to] = <span class="number">1</span>;</span><br><span class="line">                    d[e.to] = d[x] + <span class="number">1</span>;</span><br><span class="line">                    Q.push(e.to);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> vis[t];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> a)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x == t || a == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> a;</span><br><span class="line">        <span class="keyword">int</span> flow = <span class="number">0</span>, f;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> &amp;i = cur[x]; i &lt; G[x].<span class="built_in">size</span>(); i++)</span><br><span class="line">        &#123;</span><br><span class="line">            Edge &amp;e = edges[G[x][i]];</span><br><span class="line">            <span class="keyword">if</span> (d[x] + <span class="number">1</span> == d[e.to] &amp;&amp; (f = DFS(e.to, <span class="built_in">min</span>(a, e.cap - e.flow))) &gt; <span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                e.flow += f;</span><br><span class="line">                edges[G[x][i] ^ <span class="number">1</span>].flow -= f;</span><br><span class="line">                flow += f;</span><br><span class="line">                a -= f;</span><br><span class="line">                <span class="keyword">if</span> (a == <span class="number">0</span>)</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flow;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">Maxflow</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">int</span> t)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;s = s;</span><br><span class="line">        <span class="keyword">this</span>-&gt;t = t;</span><br><span class="line">        <span class="keyword">int</span> flow = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (BFS())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">memset</span>(cur, <span class="number">0</span>, <span class="keyword">sizeof</span>(cur));</span><br><span class="line">            flow += DFS(s, INF);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></div></figure>
+
+        <h2 id="更高级的算法">
+          <a href="#更高级的算法" class="heading-link"><i class="fas fa-link"></i></a>更高级的算法</h2>
+      <p>更强的优化：ISAP</p>
+<p>预流推进算法：HLPP</p>
+<p>这两个以后再说。</p>
+
+        <h1 id="最大流最小割定理">
+          <a href="#最大流最小割定理" class="heading-link"><i class="fas fa-link"></i></a>最大流最小割定理</h1>
+      <p>割，就是去掉网络中的一些边使得源点到汇点不再连通。</p>
+<p>割的大小是这些去掉的边的容量之和，在所有可行的割中，容量和最小的被称为最小割。</p>
+<p><strong>最大流最小割定理：最大流等于最小割</strong></p>
+<p>因此，任意流不大于任意割。</p>
+<ul>
+<li>83800932</li>
+</ul>
+<p><img src="https://i.loli.net/2020/09/05/OAsfXIQBwocSazH.jpg" alt="83800932"></p>
+<p>虽然最大流的算法比较好理解，但是每到用的时候都很不熟练。</p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://phlzy.github.io">Watson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://phlzy.github.io/2020/09/05/Maximum_Flow/">https://phlzy.github.io/2020/09/05/Maximum_Flow/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://phlzy.github.io/tags/%E5%9B%BE%E8%AE%BA/">图论</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2020/09/03/International_Draughts/"><span class="paginator-prev__text">C++作业预想</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本概念"><span class="toc-number">1.</span> <span class="toc-text">
+          基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#性质"><span class="toc-number">1.1.</span> <span class="toc-text">
+          性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容许流"><span class="toc-number">1.2.</span> <span class="toc-text">
+          容许流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#残余容量"><span class="toc-number">1.3.</span> <span class="toc-text">
+          残余容量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增广路"><span class="toc-number">1.4.</span> <span class="toc-text">
+          增广路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#反向弧"><span class="toc-number">1.5.</span> <span class="toc-text">
+          反向弧</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法"><span class="toc-number">2.</span> <span class="toc-text">
+          算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ford-Fulkerson算法"><span class="toc-number">2.1.</span> <span class="toc-text">
+          Ford-Fulkerson算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Edmond-Karp算法"><span class="toc-number">2.2.</span> <span class="toc-text">
+          Edmond-Karp算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dinic算法"><span class="toc-number">2.3.</span> <span class="toc-text">
+          Dinic算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更高级的算法"><span class="toc-number">2.4.</span> <span class="toc-text">
+          更高级的算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#最大流最小割定理"><span class="toc-number">3.</span> <span class="toc-text">
+          最大流最小割定理</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.png" alt="avatar"></div><p class="sidebar-ov-author__text">Think twice, code once.</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/phlzy" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">39</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">13</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-bolt"></i></span><span>Watson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v4.2.0</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">Visitors</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">Views</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="Search for Posts (Support multiple keywords)"></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ Untitled ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);</script><script type="text/x-mathjax-config">var mathjaxMhchem = '';
+var mathJaxTex = {
+  equationNumbers: {
+    autoNumber: 'AMS'
+  }
+};
+
+if (false) {
+  mathjaxMhchem = 'https://cdn.jsdelivr.net/npm/mathjax-mhchem@3.3.2/mhchem.min.js';
+  MathJax.Ajax.config.path['mhchem'] = mathjaxMhchem;
+
+  mathJaxTex.extensions = [mathjaxMhchem];
+} else {
+  mathJaxTex.extensions = ['AMSmath.js','AMSsymbols.js'];
+}
+
+MathJax.Hub.Config({
+  menuSettings: {
+    zoom: 'None'
+  },
+  showMathMenu: false,
+  jax: ['input/TeX','output/CommonHTML'],
+  extensions: ['tex2jax.js'],
+  TeX: mathJaxTex,
+  tex2jax: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+});
+
+MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+  MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+    if (data.display) {
+      var next = data.script.nextSibling;
+      while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling; }
+      if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next); }
+    }
+  });
+});
+
+MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i = 0; i < all.length; i++) {
+    document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: 'cd5aa84d5c2b7a903f6b',
+    clientSecret: '5ce1b01ef1eee6c3df2f8fc91d14563a3b01a307',
+    repo: 'phlzy.github.io',
+    owner: 'phlzy',
+    admin: ['phlzy'],
+    distractionFreeMode: 'false',
+    language: 'en'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.1.1"></script><script src="/js/stun-boot.js?v=2.1.1"></script><script src="/js/scroll.js?v=2.1.1"></script><script src="/js/header.js?v=2.1.1"></script><script src="/js/sidebar.js?v=2.1.1"></script><script type="application/json" src="/search.json"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"display":{"position":"right","width":150,"height":300},"mobile":{"show":true,"scale":0.5},"jsonPath":"/live2dw/assets/miku.model.json"},"log":false});</script></body></html>
