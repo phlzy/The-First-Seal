@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.1.1" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.1.1" type="image/png" sizes="32x32"><meta name="description" content="“阅读全文大约需要60分钟”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="后缀自动机">
+<meta property="og:url" content="https://phlzy.github.io/2020/10/07/Suffix-Automaton/index.html">
+<meta property="og:site_name" content="Watson&#39;s Blog">
+<meta property="og:description" content="“阅读全文大约需要60分钟”">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2020/10/07/LdHEGJ45oRz6xTy.jpg">
+<meta property="article:published_time" content="2020-10-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-07T08:37:15.719Z">
+<meta property="article:author" content="Watson">
+<meta property="article:tag" content="字符串">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/10/07/LdHEGJ45oRz6xTy.jpg"><title>后缀自动机 | Watson's Blog</title><link ref="canonical" href="https://phlzy.github.io/2020/10/07/Suffix-Automaton/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.1.1"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":false},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: false,
+  pjax: undefined,
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"Copy","copySuccess":"Copy Success","copyError":"Copy Error"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 4.2.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">Home</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">Archives</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">Tags</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/friends/"><span class="header-nav-menu-item__icon"><i class="fas fa-user-friends"></i></span><span class="header-nav-menu-item__text">Friends</span></a></div></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">Watson's Blog</div><div class="header-banner-info__subtitle">Think twice,code once</div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">后缀自动机</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">Created</span><span class="post-meta-item__value">2020-10-07</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">Updated</span><span class="post-meta-item__value">2020-10-07</span></span><span class="post-meta-item post-meta-item--visitors"><span class="post-meta-item__icon"><i class="fas fa-eye"></i></span><span class="post-meta-item__info">Visited</span><span class="post-meta-item__value" id="busuanzi_value_page_pv"></span></span></div></header><div class="post-body"><p>“阅读全文大约需要60分钟”</p>
+<a id="more"></a>
+
+        <h2 id="简介">
+          <a href="#简介" class="heading-link"><i class="fas fa-link"></i></a>简介</h2>
+      <p><strong>后缀自动机</strong> (suffix automaton, SAM) 是一个能解决许多字符串相关问题的有力的数据结构。</p>
+<p>举个例子，以下的字符串问题都可以在线性时间内通过 SAM 解决。</p>
+<ul>
+<li>在另一个字符串中搜索一个字符串的所有出现位置。</li>
+<li>计算给定的字符串中有多少个不同的子串。</li>
+</ul>
+<p>直观上，字符串的 SAM 可以理解为给定字符串的 <strong>所有子串</strong> 的压缩形式。值得注意的是，SAM 将所有的这些信息以高度压缩的形式储存。对于一个长度为 $n$ 的字符串，它的空间复杂度仅为 $O(n)$。此外，构造 SAM 的时间复杂度仅为 $O(n)$。准确的说，一个 SAM 最多有 $2n-1$ 个节点和 $3n-4$ 条转移边。</p>
+<p>——摘自<span class="exturl"><a class="exturl__link" href="https://oi-wiki.org/string/sam/" target="_blank" rel="noopener">OI Wiki</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p>SAM是一个接受字符串的所有后缀的最小<strong>确定性有限状态自动机</strong>。</p>
+<p>简单的说，对于某个有限状态自动机A，若它能识别某个字符串 $s$，那么 <code>A(s) == true</code>，否则 <code>A(s) == false</code>。</p>
+<p>自动机由五个部分组成：</p>
+<ol>
+<li>字符集 <code>Alpha</code></li>
+<li>状态集合 <code>state</code></li>
+<li>初始状态 <code>st</code></li>
+<li>结束状态 <code>end</code></li>
+<li>状态转移函数 <code>trans()</code></li>
+</ol>
+<p>若当前状态是 <code>s</code>，读入某个字符 <code>ch</code> 后的状态就是 <code>trans(s, ch)</code>。</p>
+<p>那么自动机能识别的字符串就是所有满足 $\text{trans}(st,x)\in \text{end}$ 的字符串 $x$。</p>
+<p>对于字符串 $s$ 的后缀自动机SAM，<code>SAM(x) == true</code> 当且仅当 $x$ 是 $s$ 的后缀。</p>
+<p>——摘自WJMZBMR的PPT</p>
+
+        <h2 id="原理">
+          <a href="#原理" class="heading-link"><i class="fas fa-link"></i></a>原理</h2>
+      
+        <h3 id="暴力建Trie">
+          <a href="#暴力建Trie" class="heading-link"><i class="fas fa-link"></i></a>暴力建Trie</h3>
+      <p>如果我们要识别某个字符串的所有后缀，最简单的办法是把所有后缀全部插到一个Trie里面。很明显，这样的插入操作是 $O(n^2)$ 的。这个Trie上的所有路径都是原串的子串，而不在这个Trie上的路径都不是原串的子串（一一对应）。</p>
+<p>但是在建完Trie以后可以发现，Trie上的很多路径都是重复的，这也是这样做复杂度很高的原因，而后缀自动机就解决了这个问题。</p>
+
+        <h3 id="后缀自动机">
+          <a href="#后缀自动机" class="heading-link"><i class="fas fa-link"></i></a>后缀自动机</h3>
+      <p>对于一个子串，它可能会出现在原串的若干个不同的位置，我们将某个字串出现在的所有位置的右端点标记为该子串的 <code>endpos</code>。</p>
+<p><strong>三个引理：</strong></p>
+<ol>
+<li>如果两个子串的 <code>endpos</code> 相同，那么短的子串一定是长的子串的后缀。正确性非常显然。</li>
+<li>对于任意两个子串 $s$、$t$ 满足 $|s|\le|t|$，$\text{endpos}(t)\in\text{endpos}(s)$ 或 $\text{endpos}(t)\cap\text{endpos}(s)=\varnothing$。这是第一条的逆命题，也不难证明。</li>
+<li>对于 <code>endpos</code> 相同的子串，我们视为一个 <code>endpos</code> 等价类，把一个 <code>endpos</code> 等价类中的所有子串按长度降序排序，则相邻子串长度相差 $1$ 且后面的子串都是前面的子串的后缀。正确性也很显然。</li>
+</ol>
+<p>根据上面三个比较简单的引理，可以得到这样的推论：<code>endpos</code> 等价类的个数的级别是 $O(n)$ 的。</p>
+<p>对于两个子串 $a$、$b$，它们的 <code>endpos</code> 集合要么不相交，要么一个是另一个的真子集。</p>
+<p>那么类之间有了父子关系，可以搞出一个parent tree。</p>
+<p>后缀自动机上的结点和parent tree上的结点是一样的，但是边有所不同。</p>
+<p>原理先看到这里，剩下的改日再写。贴个<span class="exturl"><a class="exturl__link" href="https://www.luogu.com.cn/blog/Kesdiael3/hou-zhui-zi-dong-ji-yang-xie" target="_blank" rel="noopener">博客链接</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>。</p>
+<p>这个<span class="exturl"><a class="exturl__link" href="https://www.cnblogs.com/maomao9173/p/10447821.html" target="_blank" rel="noopener">博客</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>的图可以看看。</p>
+
+        <h2 id="构造">
+          <a href="#构造" class="heading-link"><i class="fas fa-link"></i></a>构造</h2>
+      <p><span class="exturl"><a class="exturl__link" href="https://www.luogu.com.cn/problem/P3804" target="_blank" rel="noopener">P3804 【模板】后缀自动机 (SAM)</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<figure class="highlight c++"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> maxn = <span class="number">2e6</span> + <span class="number">9</span>;</span><br><span class="line"><span class="keyword">int</span> tot = <span class="number">1</span>, las = <span class="number">1</span>;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> ch[<span class="number">26</span>];</span><br><span class="line">    <span class="keyword">int</span> len, fa;</span><br><span class="line">    node()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">memset</span>(ch, <span class="number">0</span>, <span class="keyword">sizeof</span>(ch));</span><br><span class="line">        len = fa = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; trie[maxn];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Edge</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> t, nexty;</span><br><span class="line">&#125; edge[maxn];</span><br><span class="line"><span class="keyword">int</span> head[maxn], cnt = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cnt++;</span><br><span class="line">    edge[cnt].t = b;</span><br><span class="line">    edge[cnt].nexty = head[a];</span><br><span class="line">    head[a] = cnt;</span><br><span class="line">&#125;</span><br><span class="line">ll val[maxn];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ins</span><span class="params">(<span class="keyword">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> p = las, np = las = ++tot;</span><br><span class="line">    val[tot] = <span class="number">1</span>;</span><br><span class="line">    trie[np].len = trie[p].len + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (; p &amp;&amp; !trie[p].ch[c]; p = trie[p].fa)</span><br><span class="line">        trie[p].ch[c] = np;</span><br><span class="line">    <span class="keyword">if</span> (!p)</span><br><span class="line">        trie[np].fa = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> q = trie[p].ch[c];</span><br><span class="line">        <span class="keyword">if</span> (trie[q].len == trie[p].len + <span class="number">1</span>)</span><br><span class="line">            trie[np].fa = q;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> nq = ++tot;</span><br><span class="line">            trie[nq] = trie[q];</span><br><span class="line">            trie[nq].len = trie[p].len + <span class="number">1</span>;</span><br><span class="line">            trie[q].fa = trie[np].fa = nq;</span><br><span class="line">            <span class="keyword">for</span> (; p &amp;&amp; trie[p].ch[c] == q; p = trie[p].fa)</span><br><span class="line">                trie[p].ch[c] = nq;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">char</span> s[maxn];</span><br><span class="line"><span class="keyword">int</span> len;</span><br><span class="line">ll ans = <span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = head[n]; i; i = edge[i].nexty)</span><br><span class="line">    &#123;</span><br><span class="line">        dfs(edge[i].t);</span><br><span class="line">        val[n] += val[edge[i].t];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (val[n] != <span class="number">1</span>)</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, val[n] * trie[n].len);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%s"</span>, s);</span><br><span class="line">    len = <span class="built_in">strlen</span>(s);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">        ins(s[i] - <span class="string">'a'</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= tot; i++)</span><br><span class="line">        add(trie[i].fa, i);</span><br><span class="line">    dfs(<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%lld\n"</span>, ans);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></div></figure>
+<ul>
+<li>84060785</li>
+</ul>
+<p><img src="https://i.loli.net/2020/10/07/LdHEGJ45oRz6xTy.jpg" alt="84060785"></p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ END ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">Author: </span><span class="copyright-author__value"><a href="https://phlzy.github.io">Watson</a></span></div><div class="copyright-link"><span class="copyright-link__name">Link: </span><span class="copyright-link__value"><a href="https://phlzy.github.io/2020/10/07/Suffix-Automaton/">https://phlzy.github.io/2020/10/07/Suffix-Automaton/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">Copyright: </span><span class="copyright-notice__value">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> unless stating additionally</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://phlzy.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2020/10/04/Subsequence-Automaton/"><span class="paginator-prev__text">子序列自动机</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="gitalk-container"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">Catalog</span><span class="sidebar-nav-ov">Overview</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">
+          简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">
+          原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#暴力建Trie"><span class="toc-number">2.1.</span> <span class="toc-text">
+          暴力建Trie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后缀自动机"><span class="toc-number">2.2.</span> <span class="toc-text">
+          后缀自动机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造"><span class="toc-number">3.</span> <span class="toc-text">
+          构造</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/images/avatar.png" alt="avatar"></div><p class="sidebar-ov-author__text">Think twice, code once.</p></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/phlzy" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">56</div><div class="sidebar-ov-state-item__name">Archives</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">17</div><div class="sidebar-ov-state-item__name">Tags</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="Creative Commons" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">You have read </span><span class="sidebar-reading-info__num">0</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2020</span><span class="footer__icon"><i class="fas fa-bolt"></i></span><span>Watson</span></div><div><span>Powered by <a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a></span><span> v4.2.0</span><span class="footer__devider">|</span><span>Theme - <a href="https://github.com/liuyib/hexo-theme-stun/" title="Stun" target="_blank" rel="noopener">Stun</a></span><span> v2.1.1</span></div><div class="busuanzi"><span class="busuanzi-siteuv"><span class="busuanzi-siteuv__icon"><i class="fas fa-user"></i></span><span class="busuanzi-siteuv__info">Visitors</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_uv"></span></span><span class="busuanzi-sitepv"><span class="busuanzi-siteuv__icon"><i class="fas fa-eye"></i></span><span class="busuanzi-siteuv__info">Views</span><span class="busuanzi-siteuv__value" id="busuanzi_value_site_pv"></span></span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="120" alpha="0.6" zIndex="-1"></script><script type="text/x-mathjax-config">var mathjaxMhchem = '';
+var mathJaxTex = {
+  equationNumbers: {
+    autoNumber: 'AMS'
+  }
+};
+
+if (false) {
+  mathjaxMhchem = 'https://cdn.jsdelivr.net/npm/mathjax-mhchem@3.3.2/mhchem.min.js';
+  MathJax.Ajax.config.path['mhchem'] = mathjaxMhchem;
+
+  mathJaxTex.extensions = [mathjaxMhchem];
+} else {
+  mathJaxTex.extensions = ['AMSmath.js','AMSsymbols.js'];
+}
+
+MathJax.Hub.Config({
+  menuSettings: {
+    zoom: 'None'
+  },
+  showMathMenu: false,
+  jax: ['input/TeX','output/CommonHTML'],
+  extensions: ['tex2jax.js'],
+  TeX: mathJaxTex,
+  tex2jax: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  }
+});
+
+MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+  MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+    if (data.display) {
+      var next = data.script.nextSibling;
+      while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling; }
+      if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next); }
+    }
+  });
+});
+
+MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i = 0; i < all.length; i++) {
+    document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/gh/sukkaw/busuanzi@latest/bsz.pure.mini.js" async></script><script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-md5@latest/src/md5.min.js"></script><script>function loadGitalk () {
+  if (!document.getElementById('gitalk-container')) {
+    return;
+  }
+
+  var gitalk = new Gitalk({
+    id: md5(window.location.pathname.slice(1)),
+    clientID: 'cd5aa84d5c2b7a903f6b',
+    clientSecret: '5ce1b01ef1eee6c3df2f8fc91d14563a3b01a307',
+    repo: 'phlzy.github.io',
+    owner: 'phlzy',
+    admin: ['phlzy'],
+    distractionFreeMode: 'false',
+    language: 'en'
+  });
+  gitalk.render('gitalk-container');
+}
+
+if (false) {
+  loadGitalk();
+} else {
+  window.addEventListener('DOMContentLoaded', loadGitalk, false);
+}</script><script src="/js/utils.js?v=2.1.1"></script><script src="/js/stun-boot.js?v=2.1.1"></script><script src="/js/scroll.js?v=2.1.1"></script><script src="/js/header.js?v=2.1.1"></script><script src="/js/sidebar.js?v=2.1.1"></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"display":{"position":"right","width":150,"height":300},"mobile":{"show":true,"scale":0.5},"jsonPath":"/live2dw/assets/miku.model.json"},"log":false});</script></body></html>
